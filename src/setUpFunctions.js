@@ -10,3 +10,18 @@ export const setContext = (height, width, test) => {
     .append('g')
     .attr('transform', `translate(${height / 2 }, ${width / 2})`);
 }
+
+const arc = (innerR, outerR) => {
+  return d3.arc()
+    .innerRadius(innerR)
+    .outerRadius(outerR)
+    .startAngle(0)
+}
+
+export const setCircle = (context, percentIn, color, innerR, outerR) => {
+  const percent = percentIn === 0 ? 1 : percentIn;
+  return context.append('path')
+  .datum({ endAngle: Math.PI * 2 * percent})
+  .style('fill', color)
+  .attr('d', arc(innerR, outerR));
+}

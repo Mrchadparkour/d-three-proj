@@ -17,16 +17,14 @@ const App = observer(class App extends Component {
   render() {
     return (
       <div>
-        <a onClick={this.togglePercent}>Toggle Arc</a>
         <ProgressArc
           height={300}
           width={300}
-          innerRadius={100}
-          outerRadius={110}
-          id="d3-arc"
+          innerRadius={0}
+          outerRadius={20}
           backgroundColor="#e6e6e6"
           foregroundColor="#00ff00"
-          percentComplete={this.state.percentComplete}
+          percentComplete={this.props.store.mainObj["SoBro Public Tour"]["Summary Statistics"]["Average Capacity"]}
          />
       </div>
 

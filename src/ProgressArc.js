@@ -1,39 +1,17 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
+import { setContext } from './setUpFunctions';
 
 class ProgressArc extends Component {
-
-  displayName: 'ProgressArc';
-
-  propTypes: {
-    id: PropTypes.string,
-    height: PropTypes.number,
-    width: PropTypes.number,
-    innerRadius: PropTypes.number,
-    outerRadius: PropTypes.number,
-    backgroundColor: PropTypes.string,
-    foregroundColor: PropTypes.string,
-    percentComplete: PropTypes.number
-  }
-
   componentDidMount() {
     this.drawArc();
   }
 
-  componentDidUpdate() {
-    this.redrawArc();
-  }
-
   drawArc() {
-    const context = this.setContext();
+    const { height, width } = this.props;
+    const context = setContext(height, width, this.refs.arc);
     this.setBackground(context);
     this.setForeground(context);
-  }
-
-  redrawArc() {
-   const context = d3.select(`#${this.props.id}`);
-   context.remove();
-   this.drawArc();
   }
 
   setBackground(context) {
@@ -59,16 +37,6 @@ class ProgressArc extends Component {
       .innerRadius(innerRadius)
       .outerRadius(outerRadius)
       .startAngle(0)
-  }
-
-  setContext() {
-    const { height, width, id } = this.props;
-    return d3.select(this.refs.arc).append('svg')
-      .attr('height', height)
-      .attr('width', width)
-      .attr('id', id)
-      .append('g')
-      .attr('transform', `translate(${height / 2 }, ${width / 2})`);
   }
 
   render() {

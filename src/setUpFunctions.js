@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
-export const setContext = (height, width, test) => {
-  return d3.select(test).append('svg')
+export const setContext = (height, width, target) => {
+  return d3.select(target).append('svg')
     .attr('height', '50%')
     .attr('width', '50%')
     .attr('id', "d3-arc")

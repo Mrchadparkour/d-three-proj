@@ -32,18 +32,39 @@ const getColor = (i) => {
   return `hsl(${hVal}, ${62.5 - (i * 12.5)}%, 50%)`;
 }
 
-const setCircle = (context, percentIn, color, innerR, outerR) => {
+const setCircle = (context, percentIn, color, innerR, outerR, id) => {
   return context.append('path')
-  .datum({ endAngle: (Math.PI * 2 * percentIn) - 1.5708})
-  .attr('d', arc(innerR, outerR))
-  .style('fill', color);
+    .datum({ endAngle: (Math.PI * 2 * percentIn) - 1.5708})
+    .attr('d', arc(innerR, outerR))
+    .attr('id', "path" + id)
+    .style('fill', color);
+}
+
+const addText = (context, id, text) => {
+  return context.append("text")
+    .attr("x", (-id - spacing) * radius)
+    .attr("dy", 0)
+    .attr("startOffset", "50%")
+    .attr("fill","black")
+    .attr("xlink:href","#path" + id)
+    .text(text);
+
 }
 
 export const drawArcs = (percentages) => {
   const context = setContext();
   let i = 1;
   for (let val in percentages) {
-    setCircle(context, percentages[val], getColor(i), getInner(i), getOuter(i));
+    setCircle(context, percentages[val], getColor(i), getInner(i), getOuter(i), i);
+    addText(context, i, "test" + i);
     i++;
   }
 }
+
+// .append("text")
+// .style('text-anchor', "middle")
+// .style('letter-spacing',10)
+// .style('fill','white')
+// .style("font-size", "15px")
+// .style("text-decoration", "italic")
+// .text("TOTAL NUMBER")

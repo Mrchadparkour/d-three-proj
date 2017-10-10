@@ -5,7 +5,7 @@ const width = 500;
 const radius = Math.min(width, height) / 10;
 const spacing = 0.9
 
-export const setContext = () => {
+const setContext = () => {
   return d3.select("#arc").append('svg')
     .attr('height', height)
     .attr('width', width)
@@ -20,16 +20,30 @@ const arc = (innerR, outerR) => (
   d3.arc()
     .innerRadius(innerR)
     .outerRadius(outerR)
-    .startAngle(0)
+    .startAngle(-1.5708)
 );
 
-export const setCircle = (context, percentIn, color, innerR, outerR) => {
-  const percent = percentIn === 0 ? 1 : percentIn;
+
+const getInner = (i) => i * radius;
+const getOuter = (i) => (i + spacing)* radius;
+
+const getColor = (i) => {
+  let hVal = (Math.round(Math.random() * 180));
+  return `hsl(${hVal}, ${62.5 - (i * 12.5)}%, 50%)`;
+}
+
+const setCircle = (context, percentIn, color, innerR, outerR) => {
   return context.append('path')
-  .datum({ endAngle: Math.PI * 2 * percentIn})
+  .datum({ endAngle: (Math.PI * 2 * percentIn) - 1.5708})
   .attr('d', arc(innerR, outerR))
   .style('fill', color);
 }
 
-export const getInner = (i) => i * radius;
-export const getOuter = (i) => (i + spacing)* radius;
+export const drawArcs = (percentages) => {
+  const context = setContext();
+  let i = 1;
+  for (let val in percentages) {
+    setCircle(context, percentages[val], getColor(i), getInner(i), getOuter(i));
+    i++;
+  }
+}

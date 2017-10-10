@@ -1,28 +1,35 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
-import { setContext, arc, setCircle } from '../setUpFunctions';
+import { setContext, arc, setCircle, getInner, getOuter } from '../setUpFunctions';
 
 class ProgressArc extends Component {
   componentDidMount() {
-    this.drawArc();
+    this.drawArcs();
   }
 
   componentDidUpdate() {
-    const context = d3.select(`#d3-arc`);
-    context.remove();
-    this.drawArc();
+    const context = d3.select("#d3-arc")
+    .remove();
+    this.drawArcs();
   }
 
-  drawArc() {
+  drawArcs() {
     const { height, width, percent, innerRadius, outerRadius } = this.props;
-    const context = setContext(height, width, this.refs.arc);
-    setCircle(context, 0, 'grey'); // background
-    setCircle(context, percent, 'green', innerRadius, outerRadius); //foreground
+    const { percentages } = this.props.store;
+    console.log(percentages);
+    const context = setContext(height, width);
+    let counter = 1;
+    for (let val in percentages) {
+      let inner = getInner(counter);
+      let outer = getOuter(counter);
+      setCircle(context, percentages[val], "red", inner, outer);
+      counter++;
+    }
   }
 
   render() {
     return(
-      <div ref="arc"></div>
+      <div id="arc"></div>
     );
   }
 }

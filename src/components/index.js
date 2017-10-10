@@ -19,8 +19,6 @@ const App = observer(class App extends Component {
           foregroundColor="#00ff00"
           store={ store }
          />
-         <h1>{this.props.store.tourName}</h1>
-         <Tabs store={ store }/>
       </div>
 
     );

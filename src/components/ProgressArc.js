@@ -17,8 +17,12 @@ const ProgressArc = observer(class ProgressArc extends Component {
 
   render() {
     return(
-      <div id="arc">
-        <h1>{this.props.store.tourName}</h1>
+      <div className="ProgressArc">
+        <div id="arc">
+          <h1>{this.props.store.tourName}</h1>
+        </div>
+        <p>*The distance traveled by each arc is the percentage of the current
+         value over the largest found value.</p>
       </div>
     );
   }

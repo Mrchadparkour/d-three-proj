@@ -73,6 +73,7 @@ const addText = (context, id, text, innerR, outerR) => {
     .attr("dy", 25)
     .attr("dx", 10)
     .style("startOffset", "25%")
+    .style("fill", "white")
     .append("textPath")
     .attr("class", "arc-text")
     .attr("xlink:href","#path" + id)
@@ -95,17 +96,18 @@ const getText = (obj) => {
    });
 }
 
+
 export const drawArcs = (percentages, currentTour) => {
   const context = setContext();
   const textObjs = getText(currentTour);
   let i = 1;
   for (let val in percentages) {
     let keyText = textObjs[i - 1].key;
-    let text = textObjs[i - 1].value;
+    let num = textObjs[i - 1].value;
     let inner = getInner(i);
     let out = getOuter(i)
     setCircle(context, percentages[val], getColor(i), inner, out, i);
-    addText(context, i, `${keyText}: ${text}`, inner, out);
+    addText(context, i, `${keyText}: ${num}`, inner, out);
     i++;
   }
 }

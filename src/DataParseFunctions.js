@@ -1,6 +1,16 @@
-import mainObj from './capacity_and_booking_lead_time';
+import * as capacity_and_booking_lead_time from './capacity_and_booking_lead_time';
 
-const getCurrentObj = (t) => mainObj[t]["Summary Statistics"];
+
+const getCurrentObj = (t) => capacity_and_booking_lead_time[t]["Summary Statistics"];
+const sanitizeObj = (obj) => {
+  let newObj = obj;
+  for (let tour in obj) {
+    let testable = getCurrentObj(tour);
+    if (Object.keys(testable).length !== 4) delete newObj[tour];
+  }
+  return newObj;
+}
+export const mainObj = sanitizeObj(capacity_and_booking_lead_time);
 const compare = (obj1, obj2, val) => (obj1[val] < obj2[val]) ? obj1[val] = obj2[val] : null;
 
 const getBigNums = () => {

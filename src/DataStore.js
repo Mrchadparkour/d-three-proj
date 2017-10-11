@@ -1,6 +1,6 @@
 import { action, extendObservable, computed } from 'mobx';
-import * as mainObj from './capacity_and_booking_lead_time.json';
-import { getPercentages } from "./DataParseFunctions";
+import { getPercentages, mainObj } from "./DataParseFunctions";
+
 
 export class DataStore {
   constructor() {

@@ -5,12 +5,12 @@ import { drawArcs } from '../setUpFunctions';
 
 class ProgressArc extends Component {
   componentDidMount() {
-    drawArcs(this.props.store.percentages);
+    drawArcs(this.props.store.percentages, this.props.store.currentTour);
   }
 
   componentDidUpdate() {
     d3.select("#d3-arc").remove();
-    drawArcs(this.props.store.percentages);
+    drawArcs(this.props.store.percentages, this.props.store.currentTour);
   }
 
   render() {

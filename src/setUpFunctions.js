@@ -16,16 +16,18 @@ const setContext = () => {
     .attr('transform', `translate(${height / 2 }, ${width / 2})`);
 }
 
-const arc = (innerR, outerR) => (
+const arc = (innerR, outerR, start) => (
   d3.arc()
     .innerRadius(innerR)
     .outerRadius(outerR)
-    .startAngle(-1.5708)
+    .startAngle(start)
+    .cornerRadius(3)
 );
 
 
 const getInner = (i) => i * radius;
 const getOuter = (i) => (i + spacing)* radius;
+const getStart = (num) => (num < .5) ? Math.PI * 2 * num : 0;
 
 const getColor = (i) => {
   let hVal = (Math.round(Math.random() * 180));
@@ -34,37 +36,45 @@ const getColor = (i) => {
 
 const setCircle = (context, percentIn, color, innerR, outerR, id) => {
   return context.append('path')
-    .datum({ endAngle: (Math.PI * 2 * percentIn) - 1.5708})
-    .attr('d', arc(innerR, outerR))
-    .attr('id', "path" + id)
-    .style('fill', color);
+    .datum({endAngle: (Math.PI * 2 * percentIn) })
+    .attr('d', arc(innerR, outerR, 0))
+    .style('fill', color)
+    .append('path')
+    .datum({endAngle: Math.PI * 2})
+    .attr('d', arc(innerR, outerR, 0))
+    .attr("id", "path" + id)
 }
 
 const addText = (context, id, text) => {
   return context.append("text")
-    .attr("x", (-id - spacing) * radius)
-    .attr("dy", 0)
-    .attr("startOffset", "50%")
-    .attr("fill","black")
+    .attr("dy", 25)
+    .attr("dx", 10)
+    .append("textPath")
+    .attr("class", "arc-text")
     .attr("xlink:href","#path" + id)
-    .text(text);
-
+    .text(text)
 }
 
-export const drawArcs = (percentages) => {
+const numToStr = (num) => (num < 1) ? "%" + Math.round(num * 100) : Math.round(num);
+
+const getText = (obj) => {
+  let arr = Object.keys(obj);
+  arr.push(arr.splice(1, 1)[0]);
+   return arr.map(e => {
+     return {key: e, value: numToStr(obj[e])}
+   });
+}
+
+export const drawArcs = (percentages, currentTour) => {
   const context = setContext();
+  const textObjs = getText(currentTour);
+  console.log(textObjs);
   let i = 1;
   for (let val in percentages) {
+    let keyText = textObjs[i - 1].key;
+    let text = textObjs[i - 1].value;
     setCircle(context, percentages[val], getColor(i), getInner(i), getOuter(i), i);
-    addText(context, i, "test" + i);
+    addText(context, i, `${keyText}: ${text}`);
     i++;
   }
 }
-
-// .append("text")
-// .style('text-anchor', "middle")
-// .style('letter-spacing',10)
-// .style('fill','white')
-// .style("font-size", "15px")
-// .style("text-decoration", "italic")
-// .text("TOTAL NUMBER")

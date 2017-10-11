@@ -7,7 +7,7 @@ export class DataStore {
     extendObservable(this, {
       tourName: "SoBro Public Tour",
       listOfTourNames: Object.keys(mainObj),
-      currentTour: computed(() => mainObj[this.tourName]),
+      currentTour: computed(() => mainObj[this.tourName]["Summary Statistics"]),
       setCurrentTour: action((name) => this.tourName = name),
       percentages: computed(() => getPercentages(this.tourName)),
     })

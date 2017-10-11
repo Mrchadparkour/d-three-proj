@@ -9,6 +9,7 @@ const App = observer(class App extends Component {
     const { store } = this.props;
     return (
       <div className="App">
+        <Tabs store={ store }/>
         <ProgressArc store={ store } />
       </div>
 

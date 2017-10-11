@@ -20,61 +20,92 @@ const arc = (innerR, outerR, start) => (
   d3.arc()
     .innerRadius(innerR)
     .outerRadius(outerR)
-    .startAngle(start)
+    .startAngle(-1.57)
     .cornerRadius(3)
 );
 
 
 const getInner = (i) => i * radius;
 const getOuter = (i) => (i + spacing)* radius;
-const getStart = (num) => (num < .5) ? Math.PI * 2 * num : 0;
 
 const getColor = (i) => {
-  let hVal = (Math.round(Math.random() * 180));
+  let hVal = (Math.round(Math.random() * 360));
   return `hsl(${hVal}, ${62.5 - (i * 12.5)}%, 50%)`;
 }
 
 const setCircle = (context, percentIn, color, innerR, outerR, id) => {
-  return context.append('path')
-    .datum({endAngle: (Math.PI * 2 * percentIn) })
-    .attr('d', arc(innerR, outerR, 0))
+  let endAngle = (Math.PI * 2 * percentIn) - 1.57;
+    context.append('path')
+    .datum({endAngle: -1.57})
+    .attr('d', arc(innerR, outerR))
+    .attr('id', 'ani' + id)
     .style('fill', color)
     .append('path')
     .datum({endAngle: Math.PI * 2})
-    .attr('d', arc(innerR, outerR, 0))
-    .attr("id", "path" + id)
+    .attr('d', arc(innerR, outerR))
+    .attr("id", "path" + id);
+    animate(endAngle, innerR, outerR, "#ani"+ id);
+    animate(Math.PI * 2, innerR, outerR, "#path"+ id);
+
+
 }
 
-const addText = (context, id, text) => {
+const animate = (endAngle, innerR, outerR, id) => {
+  d3.select(id)
+  .transition()
+  .duration(2000)
+  .call(arcTween, endAngle, arc(innerR, outerR))
+}
+
+const arcTween = (transition, newAngle, arc) => {
+  transition.attrTween('d', (d) => {
+   const interpolate = d3.interpolate(d.endAngle, newAngle);
+   const newArc = d;
+   return (t) => {
+     newArc.endAngle = interpolate(t);
+     return arc(newArc);
+   };
+  });
+}
+
+const addText = (context, id, text, innerR, outerR) => {
   return context.append("text")
     .attr("dy", 25)
     .attr("dx", 10)
+    .style("startOffset", "25%")
     .append("textPath")
     .attr("class", "arc-text")
     .attr("xlink:href","#path" + id)
     .text(text)
 }
 
-const numToStr = (num) => (num < 1) ? "%" + Math.round(num * 100) : Math.round(num);
+const numToStr = (num, e) => (
+  (num < 1)
+    ? "%" + Math.round(num * 100)
+    : (e === "Booking Lead Time")
+    ? Math.round(num) + " days"
+    : Math.round(num)
+  );
 
 const getText = (obj) => {
   let arr = Object.keys(obj);
   arr.push(arr.splice(1, 1)[0]);
    return arr.map(e => {
-     return {key: e, value: numToStr(obj[e])}
+     return {key: e, value: numToStr(obj[e], e)}
    });
 }
 
 export const drawArcs = (percentages, currentTour) => {
   const context = setContext();
   const textObjs = getText(currentTour);
-  console.log(textObjs);
   let i = 1;
   for (let val in percentages) {
     let keyText = textObjs[i - 1].key;
     let text = textObjs[i - 1].value;
-    setCircle(context, percentages[val], getColor(i), getInner(i), getOuter(i), i);
-    addText(context, i, `${keyText}: ${text}`);
+    let inner = getInner(i);
+    let out = getOuter(i)
+    setCircle(context, percentages[val], getColor(i), inner, out, i);
+    addText(context, i, `${keyText}: ${text}`, inner, out);
     i++;
   }
 }

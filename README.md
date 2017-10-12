@@ -3,10 +3,9 @@
 <br>
 
 <h2>Dev Instructions</h2>
-```
-yarn install || npm install
-yarn start || npm run start
-```
+
+`yarn install || npm install`
+`yarn start || npm run start`
 
 <h2>Notes & Stack</h2>
 

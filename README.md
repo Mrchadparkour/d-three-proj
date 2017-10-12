@@ -4,9 +4,9 @@
 
 <h2>Dev Instructions</h2>
 
-`git clone https://github.com/Mrchadparkour/d-three-proj.git`
-`yarn install`
-`yarn start`
+`git clone https://github.com/Mrchadparkour/d-three-proj.git` <br>
+`yarn install` <br>
+`yarn start`  
 
 <h2>Notes & Stack</h2>
 

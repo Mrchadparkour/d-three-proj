@@ -1,5 +1,6 @@
-import * as d3 from 'd3';
+//Used in ../components/ProgressArc.js
 
+import * as d3 from 'd3';
 const height = 500;
 const width = 500;
 const radius = Math.min(width, height) / 10;
@@ -80,13 +81,14 @@ const addText = (context, id, text, innerR, outerR) => {
     .text(text)
 }
 
-const numToStr = (num, e) => (
-  (num < 1)
+const numToStr = (num, e) => {
+  let rN = Math.round(num);
+  return (num < 1)
     ? "%" + Math.round(num * 100)
     : (e === "Booking Lead Time")
-    ? Math.round(num) + " days"
-    : Math.round(num)
-  );
+    ? rN + " days"
+    : rN
+  }
 
 const getText = (obj) => {
   let arr = Object.keys(obj);

@@ -1,5 +1,9 @@
-import * as capacity_and_booking_lead_time from './capacity_and_booking_lead_time';
+/*Used as helper functions for DataStore to reduce clutter.
+  I realize that I could make these all mobx-wrapped variables, but It seemed
+  unecessary for this project.
+   */
 
+import * as capacity_and_booking_lead_time from '../capacity_and_booking_lead_time';
 
 const getCurrentObj = (t) => capacity_and_booking_lead_time[t]["Summary Statistics"];
 const sanitizeObj = (obj) => {

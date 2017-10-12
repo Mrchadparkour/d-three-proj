@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 import { observer } from 'mobx-react';
-import { drawArcs } from '../setUpFunctions';
+import { drawArcs } from '../FunctionFiles/setUpFunctions';
 
 
 const ProgressArc = observer(class ProgressArc extends Component {

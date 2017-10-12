@@ -22,17 +22,14 @@ export class DataStore {
       setCurrentTour: action((name) => this.tourName = name),
       resetContext: action(() => this.context = setContext()),
       drawArcs: action(() => {
-        console.log(this.prevArr)
         this.resetContext();
         const textObjs = getText(this.currentTour);
         let i = 1;
         let newPrevArr = [];
         let percentages = this.percentages;
         for (let val in percentages) {
-          let keyText = textObjs[i - 1].key;
-          let num = textObjs[i - 1].value;
+          let { keyText, num }= textObjs[i - 1];
           let prevPercent = this.prevArr[i - 1];
-          console.log(prevPercent)
           let inner = getInner(i);
           let out = getOuter(i);
           setCircle(this.context, percentages[val], getColor(i), inner, out, i, prevPercent);
@@ -41,7 +38,6 @@ export class DataStore {
           i++;
         }
         this.prevArr = newPrevArr;
-        console.log(this.prevArr);
       }),
 
     })

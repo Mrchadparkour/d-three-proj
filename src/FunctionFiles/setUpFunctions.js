@@ -91,6 +91,6 @@ export const getText = (obj) => {
   let arr = Object.keys(obj);
   arr.push(arr.splice(1, 1)[0]);
    return arr.map(e => {
-     return { key: e, value: numToStr(obj[e], e) }
+     return { keyText: e, num: numToStr(obj[e], e) }
    });
 }

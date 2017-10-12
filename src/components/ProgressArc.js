@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
 import { observer } from 'mobx-react';
-import { drawArcs } from '../FunctionFiles/setUpFunctions';
+// import { drawArcs } from '../FunctionFiles/setUpFunctions';
 
 
 const ProgressArc = observer(class ProgressArc extends Component {
   componentDidMount() {
-    drawArcs(this.props.store.percentages, this.props.store.currentTour);
+    this.props.store.drawArcs();
   }
 
   componentDidUpdate() {
-    let { percentages, currentTour } = this.props.store;
     d3.select("#d3-arc").remove();
-    drawArcs(percentages, currentTour);
+    this.props.store.drawArcs();
   }
 
   render() {

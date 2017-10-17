@@ -81,9 +81,9 @@ export const addText = (context, id, text, innerR, outerR) => {
 const numToStr = (num, e) => {
   let rN = Math.round(num);
   return (num < 1)
-    ? "%" + Math.round(num * 100)
+    ? Math.round(num * 100) + '%'
     : (e === "Booking Lead Time")
-    ? rN + " mins"
+    ? rN + " days"
     : rN
   }
 
